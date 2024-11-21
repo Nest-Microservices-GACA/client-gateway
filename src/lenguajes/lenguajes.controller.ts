@@ -1,6 +1,9 @@
-import { Body, Controller, Delete, Get, Inject, Param, Patch, Post } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
+import { catchError } from 'rxjs';
 import { LENGUAJE_SERVICE } from 'src/config';
+import { UpdateLanguageDto } from './dto/update-language.dto';
+import { CreateLanguageDto } from './dto/create-language.dto';
 
 @Controller('lenguajes')
 export class LenguajesController {
@@ -9,8 +12,12 @@ export class LenguajesController {
   ) {}
 
   @Post()
-  createLenguaje(){
-    return "crea un lenguaje";
+  createLenguaje(@Body() createLanguageDto:CreateLanguageDto){
+
+    return this.lenguajeClient.send(
+      'lenguaje.create',
+      createLanguageDto,
+    );
   }
 
   @Get()
@@ -20,22 +27,44 @@ export class LenguajesController {
 
   @Get(':id')
   findOne(@Param('id') id:string){
-    return "crea un lenguaje";
+
+    return this.lenguajeClient.send('lenguaje.findOne', { id }).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
   }
 
 
   @Delete(':id')
   delete(@Param('id') id:string){
-    return "crea un lenguaje";
+    return this.lenguajeClient.send('lenguaje.remove', { id }).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
   }
 
 
   @Patch(':id')
-  patch(
-    @Param('id') id:string,
-    @Body() body:any
+  patchLenguaje(
+    @Param('id', ParseIntPipe) idu_lenguaje: number,
+    @Body() updateLanguageDto:UpdateLanguageDto
   ){
-    return "crea un lenguaje";
+
+    return this.lenguajeClient.send(
+      'lenguaje.update',
+      {
+        idu_lenguaje,
+        ...updateLanguageDto,
+      },
+    )
+    .pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
+
   }
 
 
