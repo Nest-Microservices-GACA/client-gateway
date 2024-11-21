@@ -12,7 +12,8 @@ import { RviacoModule } from './rviaco/rviaco.module';
     UsuariosModule, 
     RviaacModule, 
     RviasaModule, 
-    RviacoModule
+    RviacoModule,
+    AuthModule
   ],
 })
 export class AppModule {}
