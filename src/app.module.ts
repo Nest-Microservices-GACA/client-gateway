@@ -6,6 +6,6 @@ import { RviaacModule } from './rviaac/rviaac.module';
 import { RviasaModule } from './rviasa/rviasa.module';
 
 @Module({
-  imports: [LenguajesModule, UsuariosModule, RviaacModule, RviasaModule],
+  imports: [LenguajesModule, UsuariosModule, RviaacModule, RviasaModule, AuthModule],
 })
 export class AppModule {}

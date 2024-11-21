@@ -16,6 +16,12 @@ interface EnvVars {
 
   USUARIOS_MICROSERVICE_HOST: string;
   USUARIOS_MICROSERVICE_PORT: number;
+
+  AUTH_MICROSERVICE_HOST: string;
+  AUTH_MICROSERVICE_PORT: number;
+
+  NATS_SERVERS: string[];
+
 }
 
 const envsSchema = joi.object({
@@ -34,11 +40,18 @@ const envsSchema = joi.object({
   USUARIOS_MICROSERVICE_HOST: joi.string().required(),
   USUARIOS_MICROSERVICE_PORT: joi.number().required(),
 
+  AUTH_MICROSERVICE_HOST: joi.string().required(),
+  AUTH_MICROSERVICE_PORT: joi.number().required(),
+
+  // NATS_SERVERS: joi.array().items( joi.string() ).required(),
+
 })
 .unknown(true);
 
-const { error, value } = envsSchema.validate( process.env );
-
+const { error, value } = envsSchema.validate({ 
+  ...process.env,
+  NATS_SERVERS: process.env.NATS_SERVERS?.split(',')
+});
 
 if ( error ) {
   throw new Error(`Config validation error: ${ error.message }`);
@@ -57,4 +70,7 @@ export const envs = {
   RVIASA_MicroservicePort: envVars.RVIASA_MICROSERVICE_PORT,
   UsuariosMicroserviceHost: envVars.USUARIOS_MICROSERVICE_HOST,
   UsuariosMicroservicePort: envVars.USUARIOS_MICROSERVICE_PORT,
+  AuthMicroserviceHost: envVars.AUTH_MICROSERVICE_HOST,
+  AuthMicroservicePort: envVars.AUTH_MICROSERVICE_PORT,
+  // natsServers: envVars.NATS_SERVERS,
 }
