@@ -55,6 +55,7 @@ export const envs = {
   RVIAAC_MicroservicePort: envVars.RVIAAC_MICROSERVICE_PORT,
   RVIASA_MicroserviceHost: envVars.RVIASA_MICROSERVICE_HOST,
   RVIASA_MicroservicePort: envVars.RVIASA_MICROSERVICE_PORT,
-  UsuariosMicroserviceHost: envVars.USUARIOS_MICROSERVICE_HOST,
-  UsuariosMicroservicePort: envVars.USUARIOS_MICROSERVICE_PORT,
-}
+  usuariosMicroserviceHost: envVars.USUARIOS_MICROSERVICE_HOST,
+  usuariosMicroservicePort: envVars.USUARIOS_MICROSERVICE_PORT,
+  };
+  

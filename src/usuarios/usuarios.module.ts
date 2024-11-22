@@ -5,18 +5,17 @@ import { envs, USUARIOS_SERVICE } from 'src/config';
 
 @Module({
   controllers: [UsuariosController],
-  providers: [],
-  imports:[
+  imports: [
     ClientsModule.register([
-      { 
-        name: USUARIOS_SERVICE, 
+      {
+        name: USUARIOS_SERVICE,
         transport: Transport.TCP,
         options: {
-          host: envs.UsuariosMicroserviceHost,
-          port: envs.UsuariosMicroservicePort
-        }
+          host: envs.usuariosMicroserviceHost,
+          port: envs.usuariosMicroservicePort, 
+        },
       },
     ]),
-  ]
+  ],
 })
 export class UsuariosModule {}
