@@ -5,3 +5,4 @@ export const RVIASA_SERVICE = 'RVIASA_SERVICE';
 export const RVIACO_SERVICE = 'RVIACO_SERVICE';
 export const AUTH_SERVICE = 'AUTH_SERVICE';
 export const NATS_SERVICE = 'NATS_SERVICE';
+export const RVIACP_SERVICE = 'RVIACP_SERVICE';

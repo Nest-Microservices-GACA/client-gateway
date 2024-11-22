@@ -5,6 +5,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { RviaacModule } from './rviaac/rviaac.module';
 import { RviasaModule } from './rviasa/rviasa.module';
 import { RviacoModule } from './rviaco/rviaco.module';
+import { RviacpModule } from './rviacp/rviacp.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { RviacoModule } from './rviaco/rviaco.module';
     RviaacModule, 
     RviasaModule, 
     RviacoModule,
-    AuthModule
+    AuthModule,
+    RviacpModule
   ],
 })
 export class AppModule {}
