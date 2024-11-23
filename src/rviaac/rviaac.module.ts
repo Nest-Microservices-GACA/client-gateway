@@ -1,22 +1,23 @@
 import { Module } from '@nestjs/common';
-import { RviaacController } from './rviaac.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { envs, RVIAAC_SERVICE } from 'src/config';
+import { RviaacController } from './rviaac.controller';
+import { envs } from '../config/envs';
+
+console.log(`Conectando a RVIAAC_SERVICE en ${envs.RVIAAC_MicroserviceHost}:${envs.RVIAAC_MicroservicePort}`);
 
 @Module({
   controllers: [RviaacController],
-  providers: [],
-  imports:[
+  imports: [
     ClientsModule.register([
-      { 
-        name: RVIAAC_SERVICE, 
+      {
+        name: 'RVIAAC_SERVICE',
         transport: Transport.TCP,
         options: {
-          host: envs.RVIAAC_MicroserviceHost,
-          port: envs.RVIAAC_MicroservicePort
-        }
+          host: envs.RVIAAC_MicroserviceHost, 
+          port: envs.RVIAAC_MicroservicePort,
+        },
       },
     ]),
-  ]
+  ],
 })
 export class RviaacModule {}

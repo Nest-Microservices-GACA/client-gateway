@@ -1,37 +1,41 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 import { CreateRviaacDto } from './dto/create-rviaac.dto';
 import { UpdateRviaacDto } from './dto/update-rviaac.dto';
-import { RVIAAC_SERVICE } from 'src/config';
-import { ClientProxy } from '@nestjs/microservices';
 
 @Controller('rviaac')
 export class RviaacController {
-  constructor(
-    @Inject(RVIAAC_SERVICE) private readonly rviaacClient: ClientProxy,
-  ) {}
+  constructor(@Inject('RVIAAC_SERVICE') private readonly rviaacClient: ClientProxy) {}
 
   @Post()
-  create(@Body() createRviaacDto: CreateRviaacDto) {
-    // return this.rviaacService.create(createRviaacDto);
+  async create(@Body() createRviaacDto: CreateRviaacDto) {
+    const result = this.rviaacClient.send('createActualizacion', createRviaacDto);
+    return await lastValueFrom(result);
   }
 
   @Get()
-  findAll() {
-    // return this.rviaacService.findAll();
+  async findAll() {
+    const result = this.rviaacClient.send('findAllActualizacion', {});
+    return await lastValueFrom(result);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return this.rviaacService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const result = this.rviaacClient.send('findOneActualizacion', +id);
+    return await lastValueFrom(result);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRviaacDto: UpdateRviaacDto) {
-    // return this.rviaacService.update(+id, updateRviaacDto);
+  async update(@Param('id') id: string, @Body() updateRviaacDto: UpdateRviaacDto) {
+    const payload = { id: +id, ...updateRviaacDto };
+    const result = this.rviaacClient.send('updateActualizacion', payload);
+    return await lastValueFrom(result);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.rviaacService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const result = this.rviaacClient.send('removeActualizacion', +id);
+    return await lastValueFrom(result);
   }
 }

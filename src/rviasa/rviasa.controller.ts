@@ -1,37 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject } from '@nestjs/common';
-import { CreateRviasaDto } from './dto/create-rviasa.dto';
-import { UpdateRviasaDto } from './dto/update-rviasa.dto';
+import { Controller, Post, Body, Inject, BadRequestException } from '@nestjs/common';
 import { RVIASA_SERVICE } from 'src/config';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateRviasaDto } from './dto/create-rviasa.dto';
+import { lastValueFrom } from 'rxjs';
 
 @Controller('rviasa')
 export class RviasaController {
-  constructor(
-    @Inject(RVIASA_SERVICE) private readonly rviasaClient: ClientProxy,
-  ) {}
+  constructor(@Inject(RVIASA_SERVICE) private readonly rviasaClient: ClientProxy) {}
 
   @Post()
-  create(@Body() createRviasaDto: CreateRviasaDto) {
-    // return this.rviasaService.create(createRviasaDto);
-  }
+  async create(@Body() createRviasaDto: CreateRviasaDto) {
+    const { iduProject, zipFileName, pdfFileName, csvFileName } = createRviasaDto;
 
-  @Get()
-  findAll() {
-    // return this.rviasaService.findAll();
-  }
+    if (!iduProject || !zipFileName || !pdfFileName || !csvFileName) {
+      throw new BadRequestException(
+        'Todos los campos (iduProject, zipFileName, pdfFileName, csvFileName) son obligatorios.',
+      );
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    // return this.rviasaService.findOne(+id);
-  }
+    const message = {
+      iduProject,
+      zipFileName,
+      pdfFileName,
+      csvFileName,
+    };
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRviasaDto: UpdateRviasaDto) {
-    // return this.rviasaService.update(+id, updateRviasaDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.rviasaService.remove(+id);
+    // Cambiando el patrón al correcto
+    const result = this.rviasaClient.send('verifySanitizacion', message);
+    return await lastValueFrom(result);
   }
 }
