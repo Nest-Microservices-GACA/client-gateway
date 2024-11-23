@@ -32,10 +32,6 @@ export class AuthController {
   @Get('verify')
   verifyToken( @User() user: CurrentUser, @Token() token: string  ) {
 
-    // const user = req['user'];
-    // const token = req['token'];
-
-    // return this.client.send('auth.verify.user', {});
     return { user, token }
   }
   
