@@ -12,7 +12,7 @@ import { envs, RVIAMI_SERVICE } from 'src/config';
         name: RVIAMI_SERVICE, 
         transport: Transport.TCP,
         options: {
-          host: envs.RviaMIMicroserviceHost,
+          host: envs.RviaMicroserviceHost,
           port: envs.RviaMIMicroservicePort
         }
       },
