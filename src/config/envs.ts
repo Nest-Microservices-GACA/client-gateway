@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import * as joi from 'joi';
+import { RVIACAL_SERVICE } from './services';
 
 interface EnvVars {
 
@@ -26,7 +27,6 @@ interface EnvVars {
   RVIACP_MICROSERVICE_HOST: string;
   RVIACP_MICROSERVICE_PORT: number;
 
-<<<<<<< HEAD
   RVIACAL_MICROSERVICE_HOST: string;
   RVIACAL_MICROSERVICE_PORT: number;
 
@@ -35,11 +35,9 @@ interface EnvVars {
 
   RVIAPRODOC_MICROSERVICE_HOST: string;
   RVIAPRODOC_MICROSERVICE_PORT: number;
-=======
-  RVIAMI_MICROSERVICE_HOST: string;
-  RVIAMI_MICROSERVICE_PORT: number;
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
 
+  RVIAMI_MICROSERVICE_HOST: string,
+  RVIAMI_MICROSERVICE_PORT: number
   // NATS_SERVERS: string[];
 }
 
@@ -68,7 +66,6 @@ const envsSchema = joi.object({
   RVIACP_MICROSERVICE_HOST: joi.string().required(),
   RVIACP_MICROSERVICE_PORT: joi.number().required(),
 
-<<<<<<< HEAD
   RVIACAL_MICROSERVICE_HOST: joi.string().required(),
   RVIACAL_MICROSERVICE_PORT: joi.number().required(),
 
@@ -78,11 +75,9 @@ const envsSchema = joi.object({
   RVIAPRODOC_MICROSERVICE_HOST: joi.string().required(),
   RVIAPRODOC_MICROSERVICE_PORT: joi.number().required(),
 
-=======
-
   RVIAMI_MICROSERVICE_HOST: joi.string().required(),
   RVIAMI_MICROSERVICE_PORT: joi.number().required(),
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
+
   // NATS_SERVERS: joi.array().items( joi.string() ).required(),
 
 })
@@ -117,17 +112,12 @@ export const envs = {
   AuthMicroservicePort: envVars.AUTH_MICROSERVICE_PORT,
   RVIACP_MicroserviceHost: envVars.RVIACP_MICROSERVICE_HOST,
   RVIACP_MicroservicePort: envVars.RVIACP_MICROSERVICE_PORT,
-<<<<<<< HEAD
   RVIACAL_MicroserviceHost: envVars.RVIACAL_MICROSERVICE_HOST,
   RVIACAL_MicroservicePort: envVars.RVIACAL_MICROSERVICE_PORT,
   RVIADOC_MicroserviceHost: envVars.RVIADOC_MICROSERVICE_HOST,
   RVIADOC_MicroservicePort: envVars.RVIADOC_MICROSERVICE_PORT,
   RVIAPRODOC_MicroserviceHost: envVars.RVIAPRODOC_MICROSERVICE_HOST,
   RVIAPRODOC_MicroservicePort: envVars.RVIAPRODOC_MICROSERVICE_PORT,
-=======
-
-
-  RviaMIMicroserviceHost: envVars.RVIAMI_MICROSERVICE_HOST,
+  RviaMicroserviceHost: envVars.RVIAMI_MICROSERVICE_HOST,
   RviaMIMicroservicePort: envVars.RVIAMI_MICROSERVICE_PORT,
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
 }
