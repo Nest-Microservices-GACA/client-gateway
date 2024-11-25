@@ -6,12 +6,14 @@ export const RVIACO_SERVICE = 'RVIACO_SERVICE';
 export const AUTH_SERVICE = 'AUTH_SERVICE';
 export const NATS_SERVICE = 'NATS_SERVICE';
 export const RVIACP_SERVICE = 'RVIACP_SERVICE';
-<<<<<<< HEAD
 export const RVIACAL_SERVICE = 'RVIACAL_SERVICE';
 export const RVIADOC_SERVICE = 'RVIADOC_SERVICE';
 export const RVIAPRODOC_SERVICE = 'RVIAPRODOC_SERVICE';
+<<<<<<< HEAD
 export const RVIAMI_SERVICE = 'RVIAMI_SERVICE';
 
 
 =======
 >>>>>>> parent of f309c6c (RVIACAL, RVIADOC, RVIAPRODOC)
+=======
+>>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
