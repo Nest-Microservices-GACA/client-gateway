@@ -26,6 +26,15 @@ interface EnvVars {
   RVIACP_MICROSERVICE_HOST: string;
   RVIACP_MICROSERVICE_PORT: number;
 
+  RVIACAL_MICROSERVICE_HOST: string;
+  RVIACAL_MICROSERVICE_PORT: number;
+
+  RVIADOC_MICROSERVICE_HOST: string;
+  RVIADOC_MICROSERVICE_PORT: number;
+
+  RVIAPRODOC_MICROSERVICE_HOST: string;
+  RVIAPRODOC_MICROSERVICE_PORT: number;
+
   // NATS_SERVERS: string[];
 }
 
@@ -53,6 +62,15 @@ const envsSchema = joi.object({
   
   RVIACP_MICROSERVICE_HOST: joi.string().required(),
   RVIACP_MICROSERVICE_PORT: joi.number().required(),
+
+  RVIACAL_MICROSERVICE_HOST: joi.string().required(),
+  RVIACAL_MICROSERVICE_PORT: joi.number().required(),
+
+  RVIADOC_MICROSERVICE_HOST: joi.string().required(),
+  RVIADOC_MICROSERVICE_PORT: joi.number().required(),
+
+  RVIAPRODOC_MICROSERVICE_HOST: joi.string().required(),
+  RVIAPRODOC_MICROSERVICE_PORT: joi.number().required(),
 
   // NATS_SERVERS: joi.array().items( joi.string() ).required(),
 
@@ -88,5 +106,10 @@ export const envs = {
   AuthMicroservicePort: envVars.AUTH_MICROSERVICE_PORT,
   RVIACP_MicroserviceHost: envVars.RVIACP_MICROSERVICE_HOST,
   RVIACP_MicroservicePort: envVars.RVIACP_MICROSERVICE_PORT,
-
+  RVIACAL_MicroserviceHost: envVars.RVIACAL_MICROSERVICE_HOST,
+  RVIACAL_MicroservicePort: envVars.RVIACAL_MICROSERVICE_PORT,
+  RVIADOC_MicroserviceHost: envVars.RVIADOC_MICROSERVICE_HOST,
+  RVIADOC_MicroservicePort: envVars.RVIADOC_MICROSERVICE_PORT,
+  RVIAPRODOC_MicroserviceHost: envVars.RVIAPRODOC_MICROSERVICE_HOST,
+  RVIAPRODOC_MicroservicePort: envVars.RVIAPRODOC_MICROSERVICE_PORT,
 }

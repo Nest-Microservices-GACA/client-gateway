@@ -6,6 +6,9 @@ import { RviaacModule } from './rviaac/rviaac.module';
 import { RviasaModule } from './rviasa/rviasa.module';
 import { RviacoModule } from './rviaco/rviaco.module';
 import { RviacpModule } from './rviacp/rviacp.module';
+import { RviacalModule } from './rviacal/rviacal.module';
+import { RviadocModule } from './rviadoc/rviadoc.module';
+import { RviaprodocModule } from './rviaprodoc/rviaprodoc.module';
 
 @Module({
   imports: [
@@ -15,7 +18,10 @@ import { RviacpModule } from './rviacp/rviacp.module';
     RviasaModule, 
     RviacoModule,
     AuthModule,
-    RviacpModule
+    RviacpModule,
+    RviacalModule,
+    RviadocModule,
+    RviaprodocModule
   ],
 })
 export class AppModule {}
