@@ -38,8 +38,6 @@ interface EnvVars {
 
   RVIAMI_MICROSERVICE_HOST: string,
   RVIAMI_MICROSERVICE_PORT: number
-=======
->>>>>>> parent of f309c6c (RVIACAL, RVIADOC, RVIAPRODOC)
   // NATS_SERVERS: string[];
 }
 
@@ -77,34 +75,9 @@ const envsSchema = joi.object({
   RVIAPRODOC_MICROSERVICE_HOST: joi.string().required(),
   RVIAPRODOC_MICROSERVICE_PORT: joi.number().required(),
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 68d96d0 (revert)
-=======
->>>>>>> parent of 154ebfb (revert)
   RVIAMI_MICROSERVICE_HOST: joi.string().required(),
   RVIAMI_MICROSERVICE_PORT: joi.number().required(),
 
-=======
->>>>>>> parent of f309c6c (RVIACAL, RVIADOC, RVIAPRODOC)
-<<<<<<< HEAD
-=======
->>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
-<<<<<<< HEAD
-=======
-=======
-
-  RVIAMI_MICROSERVICE_HOST: joi.string().required(),
-  RVIAMI_MICROSERVICE_PORT: joi.number().required(),
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
->>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
-=======
->>>>>>> parent of 68d96d0 (revert)
-=======
->>>>>>> parent of 154ebfb (revert)
   // NATS_SERVERS: joi.array().items( joi.string() ).required(),
 
 })
@@ -145,33 +118,6 @@ export const envs = {
   RVIADOC_MicroservicePort: envVars.RVIADOC_MICROSERVICE_PORT,
   RVIAPRODOC_MicroserviceHost: envVars.RVIAPRODOC_MICROSERVICE_HOST,
   RVIAPRODOC_MicroservicePort: envVars.RVIAPRODOC_MICROSERVICE_PORT,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 68d96d0 (revert)
-=======
->>>>>>> parent of 154ebfb (revert)
   RviaMicroserviceHost: envVars.RVIAMI_MICROSERVICE_HOST,
   RviaMIMicroservicePort: envVars.RVIAMI_MICROSERVICE_PORT,
-=======
-
->>>>>>> parent of f309c6c (RVIACAL, RVIADOC, RVIAPRODOC)
-<<<<<<< HEAD
-=======
->>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
-<<<<<<< HEAD
-=======
-=======
-
-
-  RviaMIMicroserviceHost: envVars.RVIAMI_MICROSERVICE_HOST,
-  RviaMIMicroservicePort: envVars.RVIAMI_MICROSERVICE_PORT,
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
->>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
-=======
->>>>>>> parent of 68d96d0 (revert)
-=======
->>>>>>> parent of 154ebfb (revert)
 }
