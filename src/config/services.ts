@@ -6,15 +6,17 @@ export const RVIACO_SERVICE = 'RVIACO_SERVICE';
 export const AUTH_SERVICE = 'AUTH_SERVICE';
 export const NATS_SERVICE = 'NATS_SERVICE';
 export const RVIACP_SERVICE = 'RVIACP_SERVICE';
-<<<<<<< HEAD
 export const RVIACAL_SERVICE = 'RVIACAL_SERVICE';
 export const RVIADOC_SERVICE = 'RVIADOC_SERVICE';
 export const RVIAPRODOC_SERVICE = 'RVIAPRODOC_SERVICE';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)
 export const RVIAMI_SERVICE = 'RVIAMI_SERVICE';
 
 
@@ -23,6 +25,7 @@ export const RVIAMI_SERVICE = 'RVIAMI_SERVICE';
 <<<<<<< HEAD
 =======
 >>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
+<<<<<<< HEAD
 =======
 =======
 
@@ -31,3 +34,5 @@ export const RVIAMI_SERVICE = 'RVIAMI_SERVICE';
 >>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)

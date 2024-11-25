@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import * as joi from 'joi';
+import { RVIACAL_SERVICE } from './services';
 
 interface EnvVars {
 
@@ -26,7 +27,6 @@ interface EnvVars {
   RVIACP_MICROSERVICE_HOST: string;
   RVIACP_MICROSERVICE_PORT: number;
 
-<<<<<<< HEAD
   RVIACAL_MICROSERVICE_HOST: string;
   RVIACAL_MICROSERVICE_PORT: number;
 
@@ -35,18 +35,11 @@ interface EnvVars {
 
   RVIAPRODOC_MICROSERVICE_HOST: string;
   RVIAPRODOC_MICROSERVICE_PORT: number;
-=======
-  RVIAMI_MICROSERVICE_HOST: string;
-  RVIAMI_MICROSERVICE_PORT: number;
->>>>>>> a24dfff4f7605f177f22ceab84e585bbcfa4bf10
 
-<<<<<<< HEAD
   RVIAMI_MICROSERVICE_HOST: string,
   RVIAMI_MICROSERVICE_PORT: number
 =======
 >>>>>>> parent of f309c6c (RVIACAL, RVIADOC, RVIAPRODOC)
-=======
->>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
   // NATS_SERVERS: string[];
 }
 
@@ -75,7 +68,6 @@ const envsSchema = joi.object({
   RVIACP_MICROSERVICE_HOST: joi.string().required(),
   RVIACP_MICROSERVICE_PORT: joi.number().required(),
 
-<<<<<<< HEAD
   RVIACAL_MICROSERVICE_HOST: joi.string().required(),
   RVIACAL_MICROSERVICE_PORT: joi.number().required(),
 
@@ -88,8 +80,11 @@ const envsSchema = joi.object({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)
   RVIAMI_MICROSERVICE_HOST: joi.string().required(),
   RVIAMI_MICROSERVICE_PORT: joi.number().required(),
 
@@ -98,6 +93,7 @@ const envsSchema = joi.object({
 <<<<<<< HEAD
 =======
 >>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
+<<<<<<< HEAD
 =======
 =======
 
@@ -107,6 +103,8 @@ const envsSchema = joi.object({
 >>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)
   // NATS_SERVERS: joi.array().items( joi.string() ).required(),
 
 })
@@ -141,7 +139,6 @@ export const envs = {
   AuthMicroservicePort: envVars.AUTH_MICROSERVICE_PORT,
   RVIACP_MicroserviceHost: envVars.RVIACP_MICROSERVICE_HOST,
   RVIACP_MicroservicePort: envVars.RVIACP_MICROSERVICE_PORT,
-<<<<<<< HEAD
   RVIACAL_MicroserviceHost: envVars.RVIACAL_MICROSERVICE_HOST,
   RVIACAL_MicroservicePort: envVars.RVIACAL_MICROSERVICE_PORT,
   RVIADOC_MicroserviceHost: envVars.RVIADOC_MICROSERVICE_HOST,
@@ -151,8 +148,11 @@ export const envs = {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)
   RviaMicroserviceHost: envVars.RVIAMI_MICROSERVICE_HOST,
   RviaMIMicroservicePort: envVars.RVIAMI_MICROSERVICE_PORT,
 =======
@@ -161,6 +161,7 @@ export const envs = {
 <<<<<<< HEAD
 =======
 >>>>>>> parent of bddb525 (RVIACAL, RVIADOC, RVIAPRODOC)
+<<<<<<< HEAD
 =======
 =======
 
@@ -171,4 +172,6 @@ export const envs = {
 >>>>>>> parent of 9025a75 (RVIACAL, RVIADOC, RVIAPRODOC)
 =======
 >>>>>>> parent of 68d96d0 (revert)
+=======
+>>>>>>> parent of 154ebfb (revert)
 }
