@@ -1,9 +1,22 @@
 import { Module } from '@nestjs/common';
-import { RviamiService } from './rviami.service';
 import { RviamiController } from './rviami.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { envs, RVIAMI_SERVICE } from 'src/config';
 
 @Module({
   controllers: [RviamiController],
-  providers: [RviamiService],
+  providers: [],
+  imports:[
+    ClientsModule.register([
+      { 
+        name: RVIAMI_SERVICE, 
+        transport: Transport.TCP,
+        options: {
+          host: envs.RviaMIMicroserviceHost,
+          port: envs.RviaMIMicroservicePort
+        }
+      },
+    ]),
+  ]
 })
 export class RviamiModule {}
