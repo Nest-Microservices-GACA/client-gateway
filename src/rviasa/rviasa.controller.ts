@@ -10,11 +10,11 @@ export class RviasaController {
 
   @Post()
   async create(@Body() createRviasaDto: CreateRviasaDto) {
-    const { iduProject, zipFileName, pdfFileName, csvFileName } = createRviasaDto;
+    const { iduProject, zipFileName, pdfFileName, csvFileName, nom_aplicacion } = createRviasaDto;
 
-    if (!iduProject || !zipFileName || !pdfFileName || !csvFileName) {
+    if (!iduProject || !zipFileName || !pdfFileName || !csvFileName || !nom_aplicacion) {
       throw new BadRequestException(
-        'Todos los campos (iduProject, zipFileName, pdfFileName, csvFileName) son obligatorios.',
+        'Todos los campos (iduProject, zipFileName, pdfFileName, csvFileName, nom_aplicacion) son obligatorios.',
       );
     }
 
@@ -23,10 +23,11 @@ export class RviasaController {
       zipFileName,
       pdfFileName,
       csvFileName,
+      nom_aplicacion,
     };
 
-    // Cambiando el patrón al correcto
-    const result = this.rviasaClient.send('verifySanitizacion', message);
+    console.log('Mensaje enviado al microservicio:', message);
+    const result = this.rviasaClient.send('createSanitizacion', message);
     return await lastValueFrom(result);
   }
 }
