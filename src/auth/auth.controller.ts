@@ -4,8 +4,9 @@ import { AUTH_SERVICE, NATS_SERVICE } from 'src/config';
 import { LoginUserDto, RegisterUserDto } from './dto';
 import { catchError } from 'rxjs';
 import { AuthGuard } from './guards/auth.guard';
-import { Token, User } from './decorators';
+import { Auth, Token, User } from './decorators';
 import { CurrentUser } from './interfaces/current-user.interface';
+import { ValidRoles } from './interfaces/valid-roles';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +29,7 @@ export class AuthController {
     );
   }
 
-  @UseGuards( AuthGuard )
+  @Auth(ValidRoles.admin)
   @Get('verify')
   verifyToken( @User() user: CurrentUser, @Token() token: string  ) {
 
