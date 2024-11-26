@@ -4,7 +4,7 @@ import { IsIn, IsNumber, IsString } from "class-validator";
 export class CreateRviamiDto {
     @IsNumber()
     @Transform(({ value }) => parseInt(value, 10))
-    idu_aplicacion: number;
+    idu_proyecto: number;
 
     @IsNumber()
     @Transform(({ value }) => parseInt(value, 10))
