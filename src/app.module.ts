@@ -10,6 +10,7 @@ import { RviamiModule } from './rviami/rviami.module';
 import { RviacalModule } from './rviacal/rviacal.module';
 import { RviadocModule } from './rviadoc/rviadoc.module';
 import { RviaprodocModule } from './rviaprodoc/rviaprodoc.module';
+import { NatsModule } from './nats/nats.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { RviaprodocModule } from './rviaprodoc/rviaprodoc.module';
     RviamiModule,
     RviacalModule,
     RviadocModule,
-    RviaprodocModule
+    RviaprodocModule,
+    NatsModule
   ],
 })
 export class AppModule {}
