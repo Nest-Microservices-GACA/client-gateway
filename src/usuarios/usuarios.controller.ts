@@ -9,6 +9,15 @@ import { USUARIOS_SERVICE } from 'src/config';
 export class UsuariosController {
   constructor(@Inject(USUARIOS_SERVICE) private readonly usuariosClient: ClientProxy) {}
 
+  @Get('/roles') 
+  async findAllRoles() {
+    return this.usuariosClient.send('get_all_roles', {}).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
+  }
+
   @Patch(':id')
   async updateUsuario(
     @Param('id', ParseIntPipe) id: number,
@@ -32,7 +41,7 @@ export class UsuariosController {
     );
   }
 
-  @Get(':id')
+  @Get(':id') 
   async findOneUsuario(@Param('id', ParseIntPipe) id: number) {
     return this.usuariosClient.send('get_users_application', { id }).pipe(
       catchError((err) => {
