@@ -10,7 +10,7 @@ import { RviamiModule } from './rviami/rviami.module';
 import { RviacalModule } from './rviacal/rviacal.module';
 import { RviadocModule } from './rviadoc/rviadoc.module';
 import { RviaprodocModule } from './rviaprodoc/rviaprodoc.module';
-import { NatsModule } from './nats/nats.module';
+import { NatsModule } from './transports/nats.module';
 
 @Module({
   imports: [
