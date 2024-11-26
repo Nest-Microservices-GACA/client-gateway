@@ -11,7 +11,7 @@ export class UsuariosController {
 
   @Get('/roles') 
   async findAllRoles() {
-    return this.usuariosClient.send('get_all_roles', {}).pipe(
+    return this.client.send('get_all_roles', {}).pipe(
       catchError((err) => {
         throw new RpcException(err);
       }),
