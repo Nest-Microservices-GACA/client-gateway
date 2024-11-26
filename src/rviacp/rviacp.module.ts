@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { RviacpController } from './rviacp.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { envs, RVIACP_SERVICE } from '../config';
+import { envs, NATS_SERVICE, RVIACP_SERVICE } from '../config';
 
 @Module({
   controllers: [RviacpController],
@@ -9,11 +9,10 @@ import { envs, RVIACP_SERVICE } from '../config';
   imports: [
     ClientsModule.register([
       { 
-        name: RVIACP_SERVICE, 
-        transport: Transport.TCP,
+        name: NATS_SERVICE, 
+        transport: Transport.NATS,
         options: {
-          host: envs.RVIACP_MicroserviceHost,
-          port: envs.RVIACP_MicroservicePort
+          servers:envs.natsServes
         }
       },
 

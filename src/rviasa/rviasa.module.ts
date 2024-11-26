@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RviasaController } from './rviasa.controller';
-import { envs, RVIASA_SERVICE } from 'src/config';
+import { envs, NATS_SERVICE, RVIASA_SERVICE } from 'src/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { resolve, extname } from 'path';
@@ -24,12 +24,11 @@ import { v4 as uuid } from 'uuid';
     }),
     ClientsModule.register([
       {
-        name: RVIASA_SERVICE,
-        transport: Transport.TCP,
+        name: NATS_SERVICE, 
+        transport: Transport.NATS,
         options: {
-          host: envs.RVIASA_MicroserviceHost,
-          port: envs.RVIASA_MicroservicePort,
-        },
+          servers:envs.natsServes
+        }
       },
     ]),
   ],

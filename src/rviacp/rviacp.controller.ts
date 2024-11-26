@@ -2,18 +2,18 @@ import { Controller, Get, Body, Patch, Param, Inject } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { RVIACP_SERVICE } from '../config/services';
+import { NATS_SERVICE, RVIACP_SERVICE } from '../config/services';
 import { CreateRviacpDto } from './dto';
 
 @Controller('rviacp')
 export class RviacpController {
   constructor(
-    @Inject(RVIACP_SERVICE) private readonly rviacpClient: ClientProxy  
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy  
   ) {}
 
   @Patch(':id')
   addApptestCases(@Param('id') id: string, @Body() createTestCases: CreateRviacpDto) {
-    return this.rviacpClient.send(
+    return this.client.send(
         'testCases.addAppTestCases',
         {
           idu_proyecto: id,
@@ -28,7 +28,7 @@ export class RviacpController {
 
   @Get()
   findAll() {
-    return this.rviacpClient.send(
+    return this.client.send(
       'testCases.findAll',
       {}
     ).pipe(

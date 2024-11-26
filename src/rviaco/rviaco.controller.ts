@@ -2,18 +2,18 @@ import { Controller, Get, Post, Body, Param, Delete, Inject, Put, ParseIntPipe }
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { RVIACO_SERVICE } from '../config';
+import { NATS_SERVICE, RVIACO_SERVICE } from '../config';
 import { CreateRviacoDto, UpdateRviacoDto } from './dto';
 
 @Controller('rviaco')
 export class RviacoController {
   constructor(
-    @Inject(RVIACO_SERVICE) private readonly rviacoClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {}
 
   @Get()
   findAll() {
-    return this.rviacoClient.send(
+    return this.client.send(
       'costo.findAll',{})
       .pipe(
         catchError((err) => {
@@ -24,7 +24,7 @@ export class RviacoController {
   
   @Get(':id_proyecto')
   findOne(@Param('id_proyecto') id: string) {
-    return this.rviacoClient.send(
+    return this.client.send(
         'costo.findOne', 
         id 
       ).pipe(
@@ -36,7 +36,7 @@ export class RviacoController {
 
   @Post()
   create(@Body() createRviacoDto: CreateRviacoDto) {
-    return this.rviacoClient.send(
+    return this.client.send(
       'costo.create',
       createRviacoDto
     ).pipe(
@@ -48,7 +48,7 @@ export class RviacoController {
 
   @Put(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() updateRviacoDto: UpdateRviacoDto) {
-    return this.rviacoClient.send(
+    return this.client.send(
         'costo.update',
         {
           id, 
@@ -63,7 +63,7 @@ export class RviacoController {
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
-    return this.rviacoClient.send(
+    return this.client.send(
         'costo.remove', 
         id 
       ).pipe(

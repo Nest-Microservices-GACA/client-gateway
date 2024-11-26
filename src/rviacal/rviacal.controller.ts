@@ -1,13 +1,13 @@
 import { Controller, Body, Patch, Param, Inject, ParseIntPipe, BadRequestException } from '@nestjs/common';
 import { UpdateRviacalDto } from './dto/update-rviacal.dto';
-import { RVIACAL_SERVICE } from 'src/config';
+import { NATS_SERVICE, RVIACAL_SERVICE } from 'src/config';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
 @Controller('rviacal')
 export class RviacalController {
   constructor(
-    @Inject(RVIACAL_SERVICE) private readonly rviacalClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
   ) {}
   
   @Patch(':id')
@@ -20,7 +20,7 @@ export class RviacalController {
       );
     }
 
-    return this.rviacalClient.send(
+    return this.client.send(
       'rviacal.update',
       {
         idu_aplicacion,

@@ -10,12 +10,12 @@ import { Reflector } from '@nestjs/core';
 import { ClientProxy } from '@nestjs/microservices';
 import { Request } from 'express';
 import { firstValueFrom } from 'rxjs';
-import { AUTH_SERVICE } from 'src/config';
+import { AUTH_SERVICE, NATS_SERVICE } from 'src/config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,
+    @Inject(NATS_SERVICE) private readonly client: ClientProxy,
     private readonly reflector: Reflector, // Para leer los roles desde los metadatos
   ) {}
 
@@ -31,7 +31,7 @@ export class AuthGuard implements CanActivate {
 
       // Validar el token con el microservicio de autenticación
       const { user, token: newToken } = await firstValueFrom(
-        this.authClient.send('auth.verify.user', token),
+        this.client.send('auth.verify.user', token),
       );
 
       request['user'] = user;

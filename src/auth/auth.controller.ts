@@ -10,11 +10,11 @@ import { ValidRoles } from './interfaces/valid-roles';
 
 @Controller('auth')
 export class AuthController {
-  constructor(@Inject(AUTH_SERVICE) private readonly authClient: ClientProxy,) {}
+  constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy,) {}
 
   @Post()
   createLenguaje(@Body() registerUserDto:RegisterUserDto){
-    return this.authClient.send(
+    return this.client.send(
       'auth.register.user',
       registerUserDto,
     );
@@ -22,7 +22,7 @@ export class AuthController {
 
   @Post('login')
   loginUser(@Body() loginUserDto: LoginUserDto) {
-    return this.authClient.send('auth.login.user', loginUserDto).pipe(
+    return this.client.send('auth.login.user', loginUserDto).pipe(
       catchError((error) => {
         throw new RpcException(error);
       }),

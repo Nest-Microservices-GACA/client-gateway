@@ -3,18 +3,18 @@ import { catchError } from 'rxjs';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { Inject } from '@nestjs/common';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { USUARIOS_SERVICE } from 'src/config';
+import { NATS_SERVICE, USUARIOS_SERVICE } from 'src/config';
 
 @Controller('usuarios')
 export class UsuariosController {
-  constructor(@Inject(USUARIOS_SERVICE) private readonly usuariosClient: ClientProxy) {}
+  constructor(@Inject(NATS_SERVICE) private readonly client: ClientProxy) {}
 
   @Patch(':id')
   async updateUsuario(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUsuarioDto: UpdateUsuarioDto,
   ) {
-    return this.usuariosClient
+    return this.client
       .send('update_users_application', { id, updateDto: updateUsuarioDto })
       .pipe(
         catchError((err) => {
@@ -25,7 +25,7 @@ export class UsuariosController {
 
   @Get()
   async findAllUsuarios() {
-    return this.usuariosClient.send('get_all_users_applications', {}).pipe(
+    return this.client.send('get_all_users_applications', {}).pipe(
       catchError((err) => {
         throw new RpcException(err);
       }),
@@ -34,7 +34,7 @@ export class UsuariosController {
 
   @Get(':id')
   async findOneUsuario(@Param('id', ParseIntPipe) id: number) {
-    return this.usuariosClient.send('get_users_application', { id }).pipe(
+    return this.client.send('get_users_application', { id }).pipe(
       catchError((err) => {
         throw new RpcException(err);
       }),
