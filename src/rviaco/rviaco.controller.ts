@@ -1,11 +1,16 @@
-import { Controller, Get, Post, Body, Param, Delete, Inject, Put, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Inject, Put, ParseIntPipe, UseFilters } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { NATS_SERVICE, RVIACO_SERVICE } from '../config';
+import { NATS_SERVICE } from '../config';
 import { CreateRviacoDto, UpdateRviacoDto } from './dto';
+import { RpcCustomExceptionFilter } from '../common';
+import { Auth } from '../auth/decorators';
+import { ValidRoles } from '../auth/interfaces';
 
 @Controller('rviaco')
+@Auth(ValidRoles.admin)
+@UseFilters(RpcCustomExceptionFilter)
 export class RviacoController {
   constructor(
     @Inject(NATS_SERVICE) private readonly client: ClientProxy,
