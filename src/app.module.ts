@@ -11,6 +11,7 @@ import { RviacalModule } from './rviacal/rviacal.module';
 import { RviadocModule } from './rviadoc/rviadoc.module';
 import { RviaprodocModule } from './rviaprodoc/rviaprodoc.module';
 import { NatsModule } from './transports/nats.module';
+import { AplicacionesModule } from './aplicaciones/aplicaciones.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { NatsModule } from './transports/nats.module';
     RviacalModule,
     RviadocModule,
     RviaprodocModule,
-    NatsModule
+    NatsModule,
+    AplicacionesModule
   ],
 })
 export class AppModule {}
