@@ -1,11 +1,16 @@
-import { Controller, Get, Body, Patch, Param, Inject } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Inject, UseFilters } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
 
-import { NATS_SERVICE, RVIACP_SERVICE } from '../config/services';
+import { NATS_SERVICE } from '../config/services';
 import { CreateRviacpDto } from './dto';
+import { RpcCustomExceptionFilter } from '../common';
+import { Auth } from '../auth/decorators';
+import { ValidRoles } from '../auth/interfaces';
 
 @Controller('rviacp')
+@Auth(ValidRoles.admin)
+@UseFilters(RpcCustomExceptionFilter)
 export class RviacpController {
   constructor(
     @Inject(NATS_SERVICE) private readonly client: ClientProxy  
