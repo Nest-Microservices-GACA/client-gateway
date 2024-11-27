@@ -84,12 +84,12 @@ export class AplicacionesController {
      );
   }
 
-  @Post('new-app-git')
+  @Post('new-app-github')
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: filesFilter,
   }))
-  create(
+  createAppGitHub(
     @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
     @UploadedFile() file: Express.Multer.File,
     @User() user: CurrentUser
@@ -102,7 +102,34 @@ export class AplicacionesController {
     };
 
     return this.client.send(
-        'aplicaciones.createAppGit', 
+        'aplicaciones.createAppGitHub', 
+        payload
+      ).pipe(
+          catchError((err) => {
+            throw new RpcException(err);
+          }),
+       );
+  }
+
+  @Post('new-app-gitlab')
+  @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  @UseInterceptors(FileInterceptor('file', {
+    fileFilter: filesFilter,
+  }))
+  createAppGiLab(
+    @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
+    @UploadedFile() file: Express.Multer.File,
+    @User() user: CurrentUser
+  ) {
+    
+    const payload = {
+      createAplicacionDto,
+      pdfFile: file ? file : null,
+      user
+    };
+
+    return this.client.send(
+        'aplicaciones.createAppGitLab', 
         payload
       ).pipe(
           catchError((err) => {
