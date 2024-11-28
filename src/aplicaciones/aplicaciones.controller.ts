@@ -1,15 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe,  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe, UseFilters,  } from '@nestjs/common';
 import { UseInterceptors, ValidationPipe, UploadedFiles, BadRequestException, UploadedFile } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { catchError } from 'rxjs';
 
 import { NATS_SERVICE } from '../config';
 import { filesFilter } from './helper';
 import { CreateAplicacionDto, CreateAplicacionUrlDto } from './dto';
 import { Auth, User } from '../auth/decorators';
 import { CurrentUser, ValidRoles } from '../auth/interfaces';
+import { RpcCustomExceptionFilter } from '../common';
 
 @Controller('aplicaciones')
+@UseFilters(RpcCustomExceptionFilter)
 export class AplicacionesController {
   constructor(
     @Inject(NATS_SERVICE) private readonly client: ClientProxy,
@@ -18,13 +21,27 @@ export class AplicacionesController {
   @Get()
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   findAll(@User() user: CurrentUser) {
-    return this.client.send('aplicaciones.findAll', { user } );
+    return this.client.send(
+      'aplicaciones.findAll', 
+      { user } 
+    ).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
   }
 
   @Patch(':id')
   @Auth(ValidRoles.admin, ValidRoles.autorizador)
   updateStatus(@Param('id', ParseIntPipe) id: number, @Body('estatusId') estatusId: number) {
-    return this.client.send('aplicaciones.updateStatus', { id, estatusId });
+    return this.client.send(
+      'aplicaciones.updateStatus', 
+      { id, estatusId }
+    ).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
   } 
 
   @Post('new-app')
@@ -58,15 +75,21 @@ export class AplicacionesController {
       user
     };
 
-    return this.client.send('aplicaciones.createAppZip', payload)
+    return this.client.send(
+      'aplicaciones.createAppZip', 
+      payload).pipe(
+        catchError((err) => {
+          throw new RpcException(err);
+        }),
+     );
   }
 
-  @Post('new-app-git')
+  @Post('new-app-github')
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: filesFilter,
   }))
-  create(
+  createAppGitHub(
     @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
     @UploadedFile() file: Express.Multer.File,
     @User() user: CurrentUser
@@ -78,7 +101,41 @@ export class AplicacionesController {
       user
     };
 
-    return this.client.send('aplicaciones.createAppGit', payload);
+    return this.client.send(
+        'aplicaciones.createAppGitHub', 
+        payload
+      ).pipe(
+          catchError((err) => {
+            throw new RpcException(err);
+          }),
+       );
+  }
+
+  @Post('new-app-gitlab')
+  @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  @UseInterceptors(FileInterceptor('file', {
+    fileFilter: filesFilter,
+  }))
+  createAppGiLab(
+    @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
+    @UploadedFile() file: Express.Multer.File,
+    @User() user: CurrentUser
+  ) {
+    
+    const payload = {
+      createAplicacionDto,
+      pdfFile: file ? file : null,
+      user
+    };
+
+    return this.client.send(
+        'aplicaciones.createAppGitLab', 
+        payload
+      ).pipe(
+          catchError((err) => {
+            throw new RpcException(err);
+          }),
+       );
   }
 
 }
