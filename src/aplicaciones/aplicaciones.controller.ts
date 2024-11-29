@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe, UseFilters,  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe, UseFilters } from '@nestjs/common';
 import { UseInterceptors, ValidationPipe, UploadedFiles, BadRequestException, UploadedFile } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { catchError } from 'rxjs';
+import { diskStorage } from 'multer';
+import * as fs from 'fs';
 
-import { NATS_SERVICE } from '../config';
-import { filesFilter } from './helper';
+import { envs, NATS_SERVICE } from '../config';
+import { filesFilter, fileTempName } from './helper';
 import { CreateAplicacionDto, CreateAplicacionUrlDto } from './dto';
 import { Auth, User } from '../auth/decorators';
 import { CurrentUser, ValidRoles } from '../auth/interfaces';
@@ -31,6 +33,19 @@ export class AplicacionesController {
     );
   }
 
+  @Get(':id')
+  @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  findOne(@Param('id', ParseIntPipe) idu_proyecto: number,) {
+    return this.client.send(
+      'aplicaciones.findOne', 
+      { idu_proyecto } 
+    ).pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );
+  }
+
   @Patch(':id')
   @Auth(ValidRoles.admin, ValidRoles.autorizador)
   updateStatus(@Param('id', ParseIntPipe) id: number, @Body('estatusId') estatusId: number) {
@@ -48,14 +63,23 @@ export class AplicacionesController {
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FilesInterceptor('files', 2, {
     fileFilter: filesFilter,
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        const dir = envs.pathProjects;
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+      },
+      filename: fileTempName
+    })
   }))
   createAppZip(
     @Body(new ValidationPipe({ transform: true, whitelist: false })) createAplicacionDto: CreateAplicacionDto,
     @UploadedFiles() files: Express.Multer.File[],
     @User() user: CurrentUser
   ) {
+
     if (!files || files.length === 0) {
-      throw new BadRequestException('No files uploaded');
+      throw new BadRequestException('Solicitud sin archivos');
     }
 
     const zipOr7zFile = files.find(file => 
@@ -65,13 +89,15 @@ export class AplicacionesController {
     const pdfFile = files.find(file => file.mimetype.includes('pdf'));  
 
     if (!zipOr7zFile) {
-      throw new BadRequestException('You must upload one ZIP file and one PDF file');
+      throw new BadRequestException('Debes enviar un ZIP/7z y un PDF*');
     }
 
     const payload = {
       createAplicacionDto,
-      zipOr7zFile,
-      pdfFile,
+      appName: zipOr7zFile.originalname,
+      zipName: zipOr7zFile.filename,
+      fileType: zipOr7zFile.mimetype,
+      pdfName: pdfFile ? pdfFile.filename : null,
       user
     };
 
@@ -88,16 +114,24 @@ export class AplicacionesController {
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: filesFilter,
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        const dir = envs.pathProjects;
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+      },
+      filename: fileTempName
+    })
   }))
   createAppGitHub(
     @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
     @UploadedFile() file: Express.Multer.File,
     @User() user: CurrentUser
   ) {
-    
+
     const payload = {
       createAplicacionDto,
-      pdfFile: file ? file : null,
+      pdfName: file ? file.filename : null,
       user
     };
 
@@ -108,13 +142,21 @@ export class AplicacionesController {
           catchError((err) => {
             throw new RpcException(err);
           }),
-       );
+        );
   }
 
   @Post('new-app-gitlab')
   @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: filesFilter,
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        const dir = envs.pathProjects;
+        fs.mkdirSync(dir, { recursive: true });
+        cb(null, dir);
+      },
+      filename: fileTempName
+    })
   }))
   createAppGiLab(
     @Body(new ValidationPipe({ transform: true, whitelist: true })) createAplicacionDto: CreateAplicacionUrlDto,
@@ -124,7 +166,7 @@ export class AplicacionesController {
     
     const payload = {
       createAplicacionDto,
-      pdfFile: file ? file : null,
+      pdfName: file ? file.filename : null,
       user
     };
 
@@ -135,7 +177,7 @@ export class AplicacionesController {
           catchError((err) => {
             throw new RpcException(err);
           }),
-       );
+      );
   }
 
 }
