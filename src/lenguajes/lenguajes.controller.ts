@@ -4,7 +4,10 @@ import { catchError } from 'rxjs';
 import { NATS_SERVICE } from 'src/config';
 import { UpdateLanguageDto } from './dto/update-language.dto';
 import { CreateLanguageDto } from './dto/create-language.dto';
+import { Auth } from 'src/auth/decorators';
+import { ValidRoles } from 'src/auth/interfaces';
 
+@Auth(ValidRoles.admin)
 @Controller('lenguajes')
 export class LenguajesController {
   constructor(

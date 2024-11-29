@@ -3,7 +3,10 @@ import { CreateRviamiDto } from './dto/create-rviami.dto';
 import { UpdateRviamiDto } from './dto/update-rviami.dto';
 import { NATS_SERVICE, RVIAMI_SERVICE } from 'src/config';
 import { ClientProxy } from '@nestjs/microservices';
+import { Auth } from 'src/auth/decorators';
+import { ValidRoles } from 'src/auth/interfaces';
 
+@Auth(ValidRoles.admin, ValidRoles.autorizador)
 @Controller('rviami')
 export class RviamiController {
   constructor(
