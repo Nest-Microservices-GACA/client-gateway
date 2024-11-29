@@ -33,6 +33,7 @@ export class RviadocController {
   uploadScan(@Body() createRviadocDto: CreateRviadocDto, @UploadedFile() file: Express.Multer.File) {
 
     createRviadocDto.pdfFile = file.filename;
+    createRviadocDto.optionUpload = 1;
 
     return this.client.send(
       'rviadoc.upload_pdf',

@@ -18,4 +18,8 @@ export class CreateRviadocDto {
     @IsOptional()
     pdfFile: string;
 
+    @IsNumber()
+    @IsOptional()
+    optionUpload: number = 0;
+
 }
