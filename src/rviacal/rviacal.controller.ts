@@ -12,25 +12,27 @@ export class RviacalController {
   
   @Patch(':id')
   patchAppRateProject(@Param('id', ParseIntPipe) id: number, @Body() updateRviacalDto: UpdateRviacalDto) {
-    const { idu_aplicacion, opc_arquitectura, opc_estatus_calificar } = updateRviacalDto;
+    const { idu_proyecto, opc_arquitectura, opc_estatus_calificar } = updateRviacalDto;
 
-    if (!idu_aplicacion || opc_arquitectura || opc_estatus_calificar ) {
+    if (idu_proyecto == undefined || opc_arquitectura == undefined || opc_estatus_calificar == undefined ) {
       throw new BadRequestException(
         'Todos los campos (idu_aplicacion, opc_arquitectura, opc_estatus_calificar ) son obligatorios.',
       );
     }
 
     return this.client.send(
-      'rviacal.update',
+      'rate-project', 
       {
-        idu_aplicacion,
+        idu_proyecto,
         ...updateRviacalDto,
       },
     )
     .pipe(
-      catchError((err) => {
-        throw new RpcException(err);
+      catchError((error) => {
+          console.error('Error en la comunicación con el microservicio:', error); 
+          throw new RpcException(error || 'Error comunicándose con el microservicio');
       }),
     );
+
   }  
 }
