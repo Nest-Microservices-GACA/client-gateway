@@ -5,6 +5,7 @@ import { RVIACAL_SERVICE } from './services';
 interface EnvVars {
 
   PORT: number;
+  PATH_PROJECTS: string;
 
   NATS_SERVERS: string[];
 }
@@ -12,6 +13,7 @@ interface EnvVars {
 const envsSchema = joi.object({
 
   PORT: joi.number().required(),
+  PATH_PROJECTS: joi.string().required(),
 
   NATS_SERVERS: joi.array().items( joi.string() ).required(),
 
@@ -32,5 +34,6 @@ const envVars:EnvVars = value;
 
 export const envs = {
   port: envVars.PORT,
+  pathProjects: envVars.PATH_PROJECTS,
   natsServes: envVars.NATS_SERVERS,
 }

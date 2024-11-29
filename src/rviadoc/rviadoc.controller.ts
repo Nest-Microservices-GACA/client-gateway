@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Param, ParseIntPipe, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { NATS_SERVICE, RVIADOC_SERVICE } from 'src/config';
+import { envs, NATS_SERVICE, RVIADOC_SERVICE } from 'src/config';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { UpdateRviadocDto } from './dto/update-rviadoc.dto';
 import { catchError } from 'rxjs';
@@ -18,12 +18,12 @@ export class RviadocController {
   ) {}
 
   @Post()
-  // @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: filesFilter,
     storage: diskStorage({
       destination: (req, file, cb) => {
-        const dir = `/sysx/bito/projects`;
+        const dir = envs.pathProjects;
         fs.mkdirSync(dir, { recursive: true });
         cb(null, dir);
       },
