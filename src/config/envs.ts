@@ -8,6 +8,7 @@ interface EnvVars {
   PATH_PROJECTS: string;
 
   NATS_SERVERS: string[];
+  PATH_PROJECTS: string;
 }
 
 const envsSchema = joi.object({
@@ -16,6 +17,7 @@ const envsSchema = joi.object({
   PATH_PROJECTS: joi.string().required(),
 
   NATS_SERVERS: joi.array().items( joi.string() ).required(),
+  PATH_PROJECTS: joi.string().required(),
 
 })
 .unknown(true);
@@ -36,4 +38,5 @@ export const envs = {
   port: envVars.PORT,
   pathProjects: envVars.PATH_PROJECTS,
   natsServes: envVars.NATS_SERVERS,
+  pathProjects: envVars.PATH_PROJECTS,
 }
