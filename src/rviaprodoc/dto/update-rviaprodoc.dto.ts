@@ -1,5 +1,4 @@
-export class UpdateRviaprodocDto {
-    idu_proyecto: string;
-    opc_estatus_doc: string;
-    opc_estatus_doc_code: string;
-}
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateRviaprodocDto } from './create-rviaprodoc.dto';
+
+export class UpdateRviaprodocDto extends PartialType(CreateRviaprodocDto) {}

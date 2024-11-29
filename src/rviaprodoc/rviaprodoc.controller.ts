@@ -3,6 +3,7 @@ import { UpdateRviaprodocDto } from './dto/update-rviaprodoc.dto';
 import { NATS_SERVICE, RVIAPRODOC_SERVICE } from 'src/config';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { catchError } from 'rxjs';
+import { UpdateRviaprodocCodeDto } from './dto/update-rviaprodoc-code.dto';
 
 @Controller('rviaprodoc')
 export class RviaprodocController {
@@ -11,20 +12,29 @@ export class RviaprodocController {
   ) {}
 
   @Patch(':id')
-  patchAppRateProject(@Param('id', ParseIntPipe) id: number, @Body() updateRviaprodocDto: UpdateRviaprodocDto) {
-    const { idu_proyecto, opc_estatus_doc, opc_estatus_doc_code } = updateRviaprodocDto;
-
-    if (!idu_proyecto || opc_estatus_doc || opc_estatus_doc_code ) {
-      throw new BadRequestException(
-        'Todos los campos (idu_proyecto, opc_estatus_doc, opc_estatus_doc_code ) son obligatorios.',
-      );
-    }
-
+  addAppDocumentation(@Param('id') id: string, @Body() updateRviaprodoc: UpdateRviaprodocDto) {
     return this.client.send(
-      'rviaprodoc.update',
+      'rviaprodoc.addAppDocumentation',
       {
-        idu_proyecto,
-        ...updateRviaprodocDto,
+        idu_proyecto: id,
+        ...updateRviaprodoc,
+      },
+    )
+    .pipe(
+      catchError((err) => {
+        throw new RpcException(err);
+      }),
+    );    
+  }
+
+  @Patch('codigo/:id')
+  addAppDocumentationCod(@Param('id') id: string, @Body() updateRviaprodocCode: UpdateRviaprodocCodeDto) {
+    
+    return this.client.send(
+      'rviaprodoc.addAppDocumentationCode',
+      {
+        idu_proyecto: id,
+        ...updateRviaprodocCode,
       },
     )
     .pipe(
@@ -32,5 +42,6 @@ export class RviaprodocController {
         throw new RpcException(err);
       }),
     );
+
   }  
 }
