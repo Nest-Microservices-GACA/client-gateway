@@ -180,4 +180,22 @@ export class AplicacionesController {
       );
   }
 
+  @Get('download/:id')
+  @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  downloadApp(@Param('id', ParseIntPipe) idu_proyecto: number) {
+
+      const filePath = this.client.send(
+        'aplicaciones.downloadApp', 
+        { idu_proyecto }
+      ).pipe(
+        catchError((err) => {
+          throw new RpcException(err);
+        }),
+      );
+
+      console.log(filePath); //aqui esta el path del archivo .7z para descargar
+
+      return filePath;
+  }
+
 }
