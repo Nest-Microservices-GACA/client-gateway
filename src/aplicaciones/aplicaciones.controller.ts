@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe, UseFilters } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Inject, ParseIntPipe, UseFilters, Res } from '@nestjs/common';
 import { UseInterceptors, ValidationPipe, UploadedFiles, BadRequestException, UploadedFile } from '@nestjs/common';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { catchError } from 'rxjs';
+import { catchError, lastValueFrom } from 'rxjs';
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
 
@@ -12,6 +12,7 @@ import { CreateAplicacionDto, CreateAplicacionUrlDto } from './dto';
 import { Auth, User } from '../auth/decorators';
 import { CurrentUser, ValidRoles } from '../auth/interfaces';
 import { RpcCustomExceptionFilter } from '../common';
+import { Response } from 'express';
 
 @Controller('aplicaciones')
 @UseFilters(RpcCustomExceptionFilter)
@@ -44,6 +45,29 @@ export class AplicacionesController {
         throw new RpcException(err);
       }),
     );
+  }
+
+  @Get('zip/:id')
+  // @Auth(ValidRoles.admin, ValidRoles.autorizador, ValidRoles.user)
+  async download(@Param('id', ParseIntPipe) idu_proyecto: number,@Res() response: Response,) {
+
+
+    const res = await lastValueFrom(this.client.send('aplicaciones.download7z', { idu_proyecto } ));    
+
+    if( res.status ){
+
+      response.setHeader('Content-Disposition', `attachment; filename=${res.fileName}`);
+      response.setHeader('Content-Type', 'application/octet-stream');
+
+      const fileStream = fs.createReadStream(res.filePath);
+      fileStream.pipe(response);
+
+
+      return;
+    }
+
+    throw new RpcException(res.message);
+
   }
 
   @Patch(':id')
